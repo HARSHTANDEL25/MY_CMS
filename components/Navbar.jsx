@@ -24,12 +24,15 @@ export default async function Navbar() {
           <Anvil />
           <p>My CMS</p>
         </div>
-        {session ?
-        (<UserModalComponent user={session.user} />) : <Link href="/signin">Sign In</Link>}
+        {session ? (
+          <UserModalComponent user={session.user} />
+        ) : (
+          <Link href="/signin">Sign In</Link>
+        )}
       </div>
     </div>
   );
-};
+}
 
 const UserModalComponent = ({ user }) => {
   return (
@@ -38,28 +41,23 @@ const UserModalComponent = ({ user }) => {
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Image 
-              
-              src={user.image}
-          alt="User Avatar"
-          width={40}
-          height={40}
-          className="rounded-full"
-              
-              
+              <Image
+                src={user.image}
+                alt="User Avatar"
+                width={40}
+                height={40}
+                className="rounded-full"
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel> Hello , {user.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link href={`/profile/${user.name}`}>
-                  Go to Profile
-                </Link>
+                <Link href={`/profile/${user.name}`}>Go to Profile</Link>
               </DropdownMenuItem>
-              
+
               <DropdownMenuItem>
-                <Signout/>
+                <Signout />
               </DropdownMenuItem>
               <DropdownMenuItem>Subscription</DropdownMenuItem>
             </DropdownMenuContent>

@@ -7,7 +7,8 @@ export default async function Dashboard() {
     <div>
       {
         session ? (
-            <div >
+          
+            <div className="flex flex-col items-center justify-center h- " >
               <h1 className="text-2xl font-bold">Welcome to the Dashboard</h1>
               <p className="text-lg">Hello, {session.user.name}!</p>
             </div>
