@@ -1,28 +1,38 @@
 import { Calendar } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import ReactMarkdown from "react-markdown";
 
-const Singleblogpage = () => {
-  const Categorydata = [
-   
-    "Generative AI",
-    "AI Tools",
-    "AI Applications",
-    "AI Trends",
-  ];
+const fetchSingleBlogData = async (slug) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/get/${slug}`
+  );
+  const data = await res.json();
+  console.log();
+  return data;
+};
+
+const Singleblogpage = async ({ params }) => {
+  const { slug } = await params;
+  const post = await fetchSingleBlogData(slug);
   return (
-    <section>
-      <div className="px-8 my-2">
+    <div className="w-full">
+      <div className=" max-w-[1440px] mx-auto px-20 py-10">
         <Image
-          src="/Thumbnails/generative-AI.jpg"
-          alt="Blog Image"
-          width={500}
+          src={post.thumbnail}
+          alt={post.title}
+          width={550}
           height={300}
           className="rounded-lg "
         />
-        <div className="flex items-center gap-3 my-3 ">
+        <p className=" border-gray-700 rounded-lg  text-2xl font-bold my-4">
+          {post.title}
+        </p>
+        <div className="flex items-center gap-3 my-5 ">
           <Calendar />
-          <p className="text-xl font-bold "> Created on: 
+          <p className="text-lg font-bold ">
+            {" "}
+            Created on:
             {new Date().toLocaleDateString("en-IN", {
               year: "numeric",
               month: "short",
@@ -30,25 +40,33 @@ const Singleblogpage = () => {
             })}
           </p>
         </div>
-        <div className="my-2 flex gap-3 items-center">
-          <p> Category : </p>
-          <p className="bg-gray-600 border-gray-700 rounded-lg p-3">
-            Gen ai Explanation
-          </p>
-        </div>
-        <div className="my-4 flex gap-3 items-center">
+
+        <div className="my-4 flex  gap-15 items-center">
           <p> Tags : </p>
-          {Categorydata.map((category, index) => (
-            <p
-              key={index}
-              className="bg-gray-600 border-gray-700 rounded-lg p-2"
-            >
-              {category}
-            </p>
-          ))}
+
+          <div className="flex flex-wrap gap-6">
+            {post.keywords.split(",").map((tag, index) => (
+              <span
+                key={index}
+                className="text-lg font-medium text-white bg-gray-600 px-6 py-4 rounded-lg "
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
+
+        <div className="my-4 flex  gap-2 items-center">
+          <p>Description : </p>
+          <article className="prose max-w-[700px] mt-4 bg-gray-600 p-4 rounded-lg">
+            <p>{post.desc}</p>
+          </article>
+        </div>
+        <article className="prose max-w-[700px] mt-4 ">
+          <p>{post.content}</p>
+        </article>
       </div>
-    </section>
+    </div>
   );
 };
 
