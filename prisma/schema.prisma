@@ -50,7 +50,6 @@ model User {
   sessions      Session[]
   posts         Post[]
   createdAt     DateTime  @default(now())
-
   @@map("users")
 }
 
@@ -74,8 +73,8 @@ model Post {
   catslug   String
   category  Category?  @relation(fields: [catslug], references: [slug])
   excerpt   String?
-  authorId  String     @map("author_id")
-  author    User       @relation(fields: [authorId], references: [id])
+  authorId  String?     @map("author_id")
+  author    User?       @relation(fields: [authorId], references: [id])
   status    PostStatus @default(DRAFT)
   createdAt DateTime   @default(now())
 }
